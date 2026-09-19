@@ -137,12 +137,10 @@ async def link(ctx, jogador=None):
 
     player = buscar_jogador(jogador)
 
+    # Se o jogador ainda não existir no ranking,
+    # cria automaticamente com 0 pontos, 0 vitórias e 0 derrotas.
     if player is None:
-        await ctx.send(
-            f"❌ O jogador **{jogador}** "
-            "ainda não existe no ranking."
-        )
-        return
+        criar_jogador(jogador)
 
     sucesso = vincular_conta(
         ctx.author.id,
@@ -156,10 +154,15 @@ async def link(ctx, jogador=None):
         )
         return
 
+    player = buscar_jogador(jogador)
+
     await ctx.send(
         "🔗 **CONTA VINCULADA!**\n\n"
         f"👤 Discord: {ctx.author.mention}\n"
-        f"🎮 Jogador: **{jogador}**"
+        f"🎮 Jogador: **{jogador}**\n\n"
+        f"💎 Pontos: **{player[1]}**\n"
+        f"🏆 Vitórias: **{player[2]}**\n"
+        f"💀 Derrotas: **{player[3]}**"
     )
 
 
